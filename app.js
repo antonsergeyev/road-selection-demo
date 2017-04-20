@@ -52,7 +52,7 @@ app.use('/road/:lat/:lon', (req, res) => {
 });
 
 app.use('/', (req, res) => {
-  res.render('index');
+  res.render('index', {baseUrl: req.baseUrl});
 });
 
 // error handler
