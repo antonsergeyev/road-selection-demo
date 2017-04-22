@@ -11,7 +11,7 @@ let body = document.getElementsByTagName("body")[0];
 
 map.on('click', (e) => {
   body.classList.add("is-loading");
-  fetch(baseUrl + '/road/' + e.latlng.lat + '/' + e.latlng.lng)
+  fetch(baseUrl + 'road/' + e.latlng.lat + '/' + e.latlng.lng)
     .then((response) => response.json())
     .then((json) => {
       highlightRoad(json);
