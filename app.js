@@ -8,8 +8,10 @@ app.use('/libs', express.static(path.join(__dirname, 'node_modules')));
 
 const overpass = require('query-overpass');
 /**
- * Based on http://stackoverflow.com/questions/20322823/how-to-get-all-roads-around-a-given-location-in-openstreetmap
- * and http://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_API_by_Example
+ * Returns a road nearest to a given point.
+ * Based on http://stackoverflow.com/questions/20322823/how-to-get-all-roads-around-a-given-location-in-openstreetmap,
+ * http://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_API_by_Example
+ * and http://overpass-api.de/convert_form.html
  *
  * @param lat
  * @param lon
@@ -32,14 +34,16 @@ const getNearestRoad = (lat, lon) => {
       if (error) {
         return reject(error);
       } else if (roads.features.length < 1) {
-        return reject({statusCode: 404, message: "No roads found"});
+        return reject({statusCode: 404, message: "No roads found around given point"});
       } else {
+        console.log(roads.features[0]);
         return resolve(roads.features[0]);
       }
     });
   });
 };
 
+// Roads are requested via AJAX
 app.use('/road/:lat/:lon', (req, res) => {
   const lat = parseFloat(req.params.lat),
     lon = parseFloat(req.params.lon);
